@@ -21,7 +21,7 @@ To run this project locally, follow these steps:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/boredom-activities-app
+git clone https://github.com/varitoapg/boredom-activities-app.git
 
 # Navigate into the project directory
 cd boredom-activities-app
