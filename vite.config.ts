@@ -14,5 +14,8 @@ export default defineConfig({
     css: true,
     testTimeout: 5000,
     reporters: ["verbose"],
+    coverage: {
+      provider: "istanbul",
+    },
   },
 });
