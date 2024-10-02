@@ -1,1 +1,1 @@
-export const DEFAULT_TYPE = "educational";
+export const DEFAULT_TYPE = "education";
