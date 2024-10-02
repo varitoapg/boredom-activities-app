@@ -7,23 +7,24 @@ class ActivitiesFetchClient {
     this.baseURL = baseURL;
   }
 
-  async getActivities(type: string): Promise<Activity[]> {
+  async getRandomActivityByType(type: string): Promise<Activity> {
     const requestUrl = new URL(`/filter?type=${type}`, this.baseURL);
 
     const response = await fetch(requestUrl.toString(), {
       method: "GET",
-      // mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching activities: ${response}`);
+      throw new Error(`Error fetching activities: ${response.statusText}`);
     }
 
     const activities: Activity[] = await response.json();
-    return activities;
+    const randomIndex = Math.floor(Math.random() * activities.length);
+
+    return activities[randomIndex];
   }
 }
 
