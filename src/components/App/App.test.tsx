@@ -8,7 +8,7 @@ vi.mock("../../hooks/useActivities/useActivities", () => {
     __esModule: true,
     default: () => ({
       getActivities: vi.fn(() =>
-        Promise.resolve([{ activity: "Mocked activity" }]),
+        Promise.resolve({ activity: "Mocked activity" }),
       ),
     }),
   };
@@ -49,7 +49,6 @@ describe("App", () => {
       </MemoryRouter>,
     );
 
-    // Use waitFor to wait for the mocked activity to appear
     await waitFor(() => {
       expect(screen.getByText(activityText)).toBeInTheDocument();
     });

@@ -11,36 +11,31 @@ import { DEFAULT_TYPE } from "../../constants/default_values";
 function App() {
   const [searchParams] = useSearchParams();
   const [activity, setActivity] = useState<Activity | null>(null);
-  const [type, setType] = useState<string>(
-    searchParams.get("type") ?? DEFAULT_TYPE,
-  );
+  const [error, setError] = useState<string | null>(null);
+  const type = searchParams.get("type") ?? DEFAULT_TYPE;
   const { getActivities } = useActivities();
 
   useEffect(() => {
-    const newType = searchParams.get("type") ?? DEFAULT_TYPE;
-
-    if (newType !== type) {
-      setType(newType);
-    }
-  }, [searchParams, type]);
-
-  useEffect(() => {
     getActivities(type)
-      .then((activities) => {
-        setActivity(activities[0]);
+      .then((activity) => {
+        setActivity(activity);
+        setError(null);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error fetching activities:", error);
+        setError("Failed to fetch activities. Please try again.");
       });
   }, [getActivities, type]);
 
-  const handleGenerate = async () => {
-    getActivities()
-      .then((activities) => {
-        setActivity(activities[0]);
+  const handleGenerate = () => {
+    getActivities(type)
+      .then((activity) => {
+        setActivity(activity);
+        setError(null);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error fetching activities:", error);
+        setError("Failed to fetch activities. Please try again.");
       });
   };
 
@@ -58,9 +53,10 @@ function App() {
           />
           <div className="text-container">
             <h2 className="title">Trova alguna cosa a fer</h2>
-            <Button variant="dark" onClick={() => handleGenerate()}>
+            <Button variant="dark" onClick={handleGenerate}>
               Generate
             </Button>
+            {error && <p className="error">{error}</p>}
           </div>
         </div>
 
