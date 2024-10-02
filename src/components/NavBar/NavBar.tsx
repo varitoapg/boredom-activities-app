@@ -15,18 +15,19 @@ const NavBar = () => {
   };
 
   return (
-    <div className={styles.navbar}>
+    <nav className={styles.navbar}>
       {activitiesTypes.map((type) => (
         <Button
           key={type}
           onClick={() => handleClick(type)}
           variant={activeType === type ? "active" : "default"}
           isRounded
+          className="navbar-button"
         >
           {TYPE_DICTIONARY[type]}
         </Button>
       ))}
-    </div>
+    </nav>
   );
 };
 
