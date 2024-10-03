@@ -2,9 +2,10 @@ import { useSearchParams } from "react-router-dom";
 import Button from "../UI/Button/Button";
 import styles from "./NavBar.module.css";
 import { activitiesTypes } from "../../types";
-import { TYPE_DICTIONARY } from "../../constants/typeDictionary";
+import { useTranslation } from "react-i18next";
 
 const NavBar = () => {
+  const { t } = useTranslation("navbar");
   const [searchParams, setSearchParams] = useSearchParams();
   const activeType = searchParams.get("type");
 
@@ -24,7 +25,7 @@ const NavBar = () => {
           isRounded
           className="navbar-button"
         >
-          {TYPE_DICTIONARY[type]}
+          {t(type)}
         </Button>
       ))}
     </nav>

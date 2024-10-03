@@ -2,16 +2,29 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import ActivityGenerator from "./ActivityGenerator";
 import { MemoryRouter } from "react-router-dom";
+import { I18nProvider } from "../../i18n/i18n-context";
+
+vi.mock("react-i18next", async () => {
+  const original = await vi.importActual("react-i18next");
+  return {
+    ...original,
+    useTranslation: () => ({
+      t: (key: string) => key,
+    }),
+  };
+});
 
 describe("ActivityGenerator", () => {
   it("renders the NavBar component", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
-        <ActivityGenerator
-          fetchActivity={vi.fn()}
-          loading={false}
-          error={null}
-        />
+        <I18nProvider language="en">
+          <ActivityGenerator
+            fetchActivity={vi.fn()}
+            loading={false}
+            error={null}
+          />
+        </I18nProvider>
       </MemoryRouter>,
     );
     expect(screen.getByRole("navigation")).toBeInTheDocument();
@@ -20,11 +33,13 @@ describe("ActivityGenerator", () => {
   it("renders the image with correct attributes", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
-        <ActivityGenerator
-          fetchActivity={vi.fn()}
-          loading={false}
-          error={null}
-        />
+        <I18nProvider language="en">
+          <ActivityGenerator
+            fetchActivity={vi.fn()}
+            loading={false}
+            error={null}
+          />
+        </I18nProvider>
       </MemoryRouter>,
     );
     const img = screen.getByAltText("mascot of boored");
@@ -36,14 +51,16 @@ describe("ActivityGenerator", () => {
   it("renders the title", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
-        <ActivityGenerator
-          fetchActivity={vi.fn()}
-          loading={false}
-          error={null}
-        />
+        <I18nProvider language="en">
+          <ActivityGenerator
+            fetchActivity={vi.fn()}
+            loading={false}
+            error={null}
+          />
+        </I18nProvider>
       </MemoryRouter>,
     );
-    expect(screen.getByText("Trova alguna cosa a fer")).toBeInTheDocument();
+    expect(screen.getByText("moreActivity")).toBeInTheDocument();
   });
 
   it("renders all the nav buttons and generatewith correct text when not loading", () => {
