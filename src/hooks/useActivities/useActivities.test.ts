@@ -1,4 +1,3 @@
-// useActivities.test.ts
 import { renderHook } from "@testing-library/react";
 import { vi } from "vitest";
 import ActivitiesFetchClient from "../../client/ActivitiesFetchClient";
