@@ -5,6 +5,7 @@ import { vi, Mock } from "vitest";
 import { Activity } from "../../types";
 import { MemoryRouter } from "react-router-dom";
 import { activityMocked } from "../../utils/testUtils/mocks";
+import { I18nProvider } from "../../i18n/i18n-context";
 
 interface UseActivityReturn {
   activity: Activity | null;
@@ -14,6 +15,16 @@ interface UseActivityReturn {
 }
 
 vi.mock("../../hooks/useActivity/useActivity");
+
+vi.mock("react-i18next", async () => {
+  const original = await vi.importActual("react-i18next");
+  return {
+    ...original,
+    useTranslation: () => ({
+      t: (key: string) => key,
+    }),
+  };
+});
 
 describe("App Component", () => {
   beforeEach(() => {
@@ -47,11 +58,13 @@ describe("App Component", () => {
 
     render(
       <MemoryRouter initialEntries={["/"]}>
-        <App />
+        <I18nProvider language="en">
+          <App />
+        </I18nProvider>
       </MemoryRouter>,
     );
-    expect(screen.getByText(/generate/i)).toBeInTheDocument();
-    expect(screen.getByText(/activity/i)).toBeInTheDocument();
+    expect(screen.getByText(/moreActivity/i)).toBeInTheDocument();
+    expect(screen.getByText("activity")).toBeInTheDocument();
   });
 
   it("displays loading state in ActivityGenerator", () => {
