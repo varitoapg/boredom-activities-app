@@ -4,6 +4,7 @@ import useActivity from "../../hooks/useActivity/useActivity";
 import { vi, Mock } from "vitest";
 import { Activity } from "../../types";
 import { MemoryRouter } from "react-router-dom";
+import { activityMocked } from "../../utils/testUtils/mocks";
 
 interface UseActivityReturn {
   activity: Activity | null;
@@ -89,14 +90,7 @@ describe("App Component", () => {
 
   it("displays activity in ActivityDisplay when available", () => {
     (useActivity as Mock).mockReturnValue({
-      activity: {
-        activity: "Test Activity",
-        type: "Test Type",
-        participants: 1,
-        price: 0,
-        key: "test-activity",
-        accessibility: 0,
-      },
+      activity: activityMocked,
       error: null,
       loading: false,
       fetchActivity: vi.fn(),

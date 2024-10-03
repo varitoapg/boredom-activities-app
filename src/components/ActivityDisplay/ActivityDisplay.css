@@ -1,0 +1,25 @@
+.activity-display-content {
+  flex: 1;
+  min-width: 300px;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.activity-display-content__title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.activity-display-content__description {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  max-width: 70ch;
+  width: 50%;
+  margin-top: 2rem;
+}
