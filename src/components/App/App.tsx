@@ -16,7 +16,7 @@ function App() {
           loading={loading}
           error={error}
         />
-        <ActivityDisplay activity={activity} />
+        <ActivityDisplay activity={activity} loading={loading} />
       </div>
     </>
   );
