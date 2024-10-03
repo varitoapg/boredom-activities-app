@@ -1,65 +1,33 @@
-import { describe, it } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
+import useActivity from "../../hooks/useActivity/useActivity";
+import { vi, Mock } from "vitest";
+import { Activity } from "../../types";
+import { MemoryRouter } from "react-router-dom";
+import { activityMocked } from "../../utils/testUtils/mocks";
 
-describe("App", () => {
-  const textToFind = "Trova alguna cosa a fer";
-  const activityText = "Text a friend you haven't talked to in a long time";
+interface UseActivityReturn {
+  activity: Activity | null;
+  error: string | null;
+  loading: boolean;
+  fetchActivity: () => Promise<void>;
+}
 
-  it("renders App component", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
-    );
+vi.mock("../../hooks/useActivity/useActivity");
 
-    expect(screen.getByText(textToFind)).toBeInTheDocument();
+describe("App Component", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("renders App component even if a searchParam is added", () => {
-    render(
-      <MemoryRouter initialEntries={["/?type=educational"]}>
-        <App />
-      </MemoryRouter>,
-    );
+  it("renders Header component", () => {
+    (useActivity as Mock).mockReturnValue({
+      activity: null,
+      error: null,
+      loading: false,
+      fetchActivity: vi.fn(),
+    } as UseActivityReturn);
 
-    expect(screen.getByText(textToFind)).toBeInTheDocument();
-  });
-
-  it("renders the activity text", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByText(activityText)).toBeInTheDocument();
-  });
-
-  it("renders the Generate button", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
-    );
-
-    expect(
-      screen.getByRole("button", { name: /Generate/i }),
-    ).toBeInTheDocument();
-  });
-
-  it("renders the NavBar component", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByRole("navigation")).toBeInTheDocument();
-  });
-
-  it("renders the Header component", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <App />
@@ -69,15 +37,93 @@ describe("App", () => {
     expect(screen.getByRole("banner")).toBeInTheDocument();
   });
 
-  it("renders the mascot image", () => {
+  it("renders ActivityGenerator and ActivityDisplay components", () => {
+    (useActivity as Mock).mockReturnValue({
+      activity: null,
+      error: null,
+      loading: false,
+      fetchActivity: vi.fn(),
+    } as UseActivityReturn);
+
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText(/generate/i)).toBeInTheDocument();
+    expect(screen.getByText(/activity/i)).toBeInTheDocument();
+  });
+
+  it("displays loading state in ActivityGenerator", () => {
+    (useActivity as Mock).mockReturnValue({
+      activity: null,
+      error: null,
+      loading: true,
+      fetchActivity: vi.fn(),
+    } as UseActivityReturn);
+
     render(
       <MemoryRouter initialEntries={["/"]}>
         <App />
       </MemoryRouter>,
     );
 
-    const img = screen.getByAltText("mascot of boored");
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute("src", "/puppet.webp");
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  });
+
+  it("displays error message in ActivityGenerator", () => {
+    (useActivity as Mock).mockReturnValue({
+      activity: null,
+      error: "Error fetching activity",
+      loading: false,
+      fetchActivity: vi.fn(),
+    } as UseActivityReturn);
+
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/error fetching activity/i)).toBeInTheDocument();
+  });
+
+  it("displays activity in ActivityDisplay when available", () => {
+    (useActivity as Mock).mockReturnValue({
+      activity: activityMocked,
+      error: null,
+      loading: false,
+      fetchActivity: vi.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/test activity/i)).toBeInTheDocument();
+  });
+
+  it("calls fetchActivity when the button is clicked", () => {
+    const fetchActivityMock = vi.fn();
+
+    (useActivity as Mock).mockReturnValue({
+      activity: null,
+      error: null,
+      loading: false,
+      fetchActivity: fetchActivityMock,
+    } as UseActivityReturn);
+
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const button = screen.getByText(/generate/i);
+    fireEvent.click(button);
+
+    expect(fetchActivityMock).toHaveBeenCalledTimes(1);
   });
 });

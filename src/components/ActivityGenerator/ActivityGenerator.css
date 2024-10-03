@@ -1,0 +1,43 @@
+.activity-generator {
+  flex: 1;
+  min-width: 300px;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px dashed black;
+}
+
+.activity-generator__text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 50%;
+  text-align: center;
+}
+
+.activity-generator__button {
+  margin-top: 10px;
+  padding: 16px 24px;
+  font-weight: 600;
+}
+
+.activity-generator__title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.activity-generator__error {
+  color: #ff0000;
+}
+
+@media (max-width: 768px) {
+  .activity-generator {
+    border-right: none;
+  }
+}
