@@ -12,12 +12,17 @@ const router = createBrowserRouter([
     element: <App />,
   },
 ]);
-const lng = await detectLanguage();
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <I18nProvider language={lng}>
-      <RouterProvider router={router} />
-    </I18nProvider>
-  </StrictMode>,
-);
+const startApp = async () => {
+  const lng = await detectLanguage();
+
+  createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+      <I18nProvider language={lng}>
+        <RouterProvider router={router} />
+      </I18nProvider>
+    </StrictMode>,
+  );
+};
+
+startApp();
