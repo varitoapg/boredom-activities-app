@@ -50,7 +50,7 @@ npm run dev
 
 ```
 
-After you install the dependencies you need to create a .env file in the /src of the project. You need to add this variable:
+After you install the dependencies you need to create a .env file in the root of the project. You need to add this variable:
 
 ```
 VITE_API_URL="https://bored-api-fake.onrender.com/"
@@ -180,7 +180,7 @@ npm run dev
 
 ```
 
-Después de instalar las dependencias, necesitas crear un archivo `.env` en la carpeta `/src` del proyecto. Debes agregar esta variable:
+Después de instalar las dependencias, necesitas crear un archivo `.env` en la base del proyecto. Debes agregar esta variable:
 
 ```
 VITE_API_URL="https://bored-api-fake.onrender.com/"
